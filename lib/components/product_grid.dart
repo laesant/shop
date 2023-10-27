@@ -13,6 +13,7 @@ class ProductGrid extends StatelessWidget {
   Widget build(BuildContext context) {
     final ProductList provider = Provider.of<ProductList>(context);
     final List<Product> loadedProducts = provider.items;
+
     return GridView.builder(
       padding: const EdgeInsets.all(10),
       itemCount: loadedProducts.length,
@@ -21,8 +22,9 @@ class ProductGrid extends StatelessWidget {
           childAspectRatio: 3 / 2,
           crossAxisSpacing: 10,
           mainAxisSpacing: 10),
-      itemBuilder: (context, index) =>
-          ProductItem(product: loadedProducts[index]),
+      itemBuilder: (context, index) => ChangeNotifierProvider(
+          create: (_) => loadedProducts[index],
+          child: ProductItem()),
     );
   }
 }
