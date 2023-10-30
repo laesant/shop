@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop/components/product_grid.dart';
+import 'package:shop/models/cart.dart';
 import 'package:shop/models/product_list.dart';
 
 enum FilterOptions {
@@ -23,7 +24,19 @@ class _ProductsOverviewPageState extends State<ProductsOverviewPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Minha Loja"),
+        centerTitle: false,
         actions: [
+          IconButton(
+              onPressed: () {},
+              icon: Badge(
+                  backgroundColor: Theme.of(context).colorScheme.primary,
+                  label: Consumer<Cart>(
+                    builder: (context, cart, child) => Text(
+                      cart.itemsCount.toString(),
+                      style: const TextStyle(fontSize: 10),
+                    ),
+                  ),
+                  child: const Icon(Icons.shopping_cart))),
           Padding(
             padding: const EdgeInsets.only(right: 10),
             child: PopupMenuButton(
@@ -50,9 +63,7 @@ class _ProductsOverviewPageState extends State<ProductsOverviewPage> {
           ),
         ],
       ),
-      body:  ProductGrid(
-        showFavoriteOnly: _showFavoriteOnly
-      ),
+      body: ProductGrid(showFavoriteOnly: _showFavoriteOnly),
     );
   }
 }
