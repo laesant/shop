@@ -16,8 +16,9 @@ class OrderList with ChangeNotifier {
         0,
         Order(
             id: Random().nextDouble().toString(),
-            total: total,
-            products: products,
-            date: date));
+            total: cart.totalAmount,
+            products: cart.items.values.toList(),
+            date: DateTime.now()));
+    notifyListeners();
   }
 }
