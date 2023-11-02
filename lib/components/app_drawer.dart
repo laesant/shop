@@ -13,7 +13,7 @@ class AppDrawer extends StatelessWidget {
             height: 100,
             child: DrawerHeader(
               child: Text(
-                'Bem vindo Usuário',
+                'Bem vindo Usuário!',
                 style: TextStyle(fontSize: 20),
               ),
             ),
