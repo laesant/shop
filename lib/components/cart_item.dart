@@ -20,6 +20,22 @@ class CartItemWidget extends StatelessWidget {
         color: Theme.of(context).colorScheme.error,
         child: const Icon(Icons.delete, color: Colors.white, size: 40),
       ),
+      confirmDismiss: (_) {
+        return showDialog<bool>(
+            context: context,
+            builder: (context) => AlertDialog(
+                  title: const Text("Tem Certeza?"),
+                  content: const Text("Quer remover o item do carrinho?"),
+                  actions: [
+                    TextButton(
+                        onPressed: () => Navigator.of(context).pop(false),
+                        child: const Text("Não")),
+                    TextButton(
+                        onPressed: () => Navigator.of(context).pop(true),
+                        child: const Text("Sim")),
+                  ],
+                ));
+      },
       onDismissed: (_) => Provider.of<Cart>(context, listen: false)
           .removeItem(cartItem.productId),
       child: Card(
