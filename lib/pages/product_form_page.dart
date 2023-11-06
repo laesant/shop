@@ -39,6 +39,14 @@ class _ProductFormPageState extends State<ProductFormPage> {
 
   void updateImage() => setState(() {});
 
+  bool isValidImageUrl(String url) {
+    bool isValidUrl = Uri.tryParse(url)?.hasAbsolutePath ?? false;
+    bool endsWithExtension = url.toLowerCase().endsWith('.png') ||
+        url.toLowerCase().endsWith('.jpg') ||
+        url.toLowerCase().endsWith('.jpeg');
+    return isValidUrl && endsWithExtension;
+  }
+
   void _submitForm() {
     final bool isValid = _formKey.currentState?.validate() ?? false;
     if (!isValid) return;
@@ -92,6 +100,15 @@ class _ProductFormPageState extends State<ProductFormPage> {
                       const TextInputType.numberWithOptions(decimal: true),
                   onSaved: (price) =>
                       _formData['price'] = double.parse(price ?? "0.0"),
+                  validator: (value) {
+                    final double price = double.tryParse(value ?? '-1') ?? -1;
+
+                    if (price <= 0) {
+                      return "Informe um preço válido.";
+                    }
+
+                    return null;
+                  },
                 ),
                 TextFormField(
                   focusNode: _descriptionFocus,
@@ -101,6 +118,16 @@ class _ProductFormPageState extends State<ProductFormPage> {
                   maxLines: 3,
                   onSaved: (description) =>
                       _formData['description'] = description ?? "",
+                  validator: (value) {
+                    final String description = value ?? "";
+                    if (description.trim().isEmpty) {
+                      return 'Descrição é obriatório';
+                    }
+                    if (description.trim().length < 10) {
+                      return 'Descrição precisa no mínimo de 10 letras.';
+                    }
+                    return null;
+                  },
                 ),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.end,
@@ -117,6 +144,15 @@ class _ProductFormPageState extends State<ProductFormPage> {
                         onFieldSubmitted: (_) => _submitForm(),
                         onSaved: (imageUrl) =>
                             _formData['imageUrl'] = imageUrl ?? "",
+                        validator: (value) {
+                          final String imageUrl = value ?? '';
+
+                          if (!isValidImageUrl(imageUrl)) {
+                            return "Informe uma Url válida!";
+                          }
+
+                          return null;
+                        },
                       ),
                     ),
                     Container(
