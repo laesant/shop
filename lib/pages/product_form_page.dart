@@ -40,6 +40,9 @@ class _ProductFormPageState extends State<ProductFormPage> {
   void updateImage() => setState(() {});
 
   void _submitForm() {
+    final bool isValid = _formKey.currentState?.validate() ?? false;
+    if (!isValid) return;
+
     _formKey.currentState?.save();
     final newProduct = Product(
       id: Random().nextDouble().toString(),
@@ -48,9 +51,6 @@ class _ProductFormPageState extends State<ProductFormPage> {
       price: _formData['price'],
       imageUrl: _formData['imageUrl'],
     );
-    print(newProduct.id);
-    print(newProduct.name);
-    print(newProduct.price);
   }
 
   @override
@@ -72,6 +72,16 @@ class _ProductFormPageState extends State<ProductFormPage> {
                   decoration: const InputDecoration(labelText: "Nome"),
                   onFieldSubmitted: (_) => _priceFocus.requestFocus(),
                   onSaved: (name) => _formData['name'] = name ?? "",
+                  validator: (value) {
+                    final String name = value ?? "";
+                    if (name.trim().isEmpty) {
+                      return 'Nome é obriatório';
+                    }
+                    if (name.trim().length < 3) {
+                      return 'Nome precisa no mínimo de 3 letras.';
+                    }
+                    return null;
+                  },
                 ),
                 TextFormField(
                   focusNode: _priceFocus,
