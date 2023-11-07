@@ -16,40 +16,40 @@ class ProductList with ChangeNotifier {
       _items.where((product) => product.isFavorite).toList();
   int get itemsCount => _items.length;
 
-  void _addProduct(Product product) {
-    http
-        .post(Uri.parse('$_baseUrl/products.json'),
-            body: jsonEncode({
-              "name": product.name,
-              "description": product.description,
-              "price": product.price,
-              "imageUrl": product.imageUrl,
-              "isFavorite": product.isFavorite,
-            }))
-        .then((response) {
-      final id = jsonDecode(response.body)['name'];
+  Future<void> _addProduct(Product product) async {
+    var response = await http.post(Uri.parse('$_baseUrl/products.json'),
+        body: jsonEncode({
+          "name": product.name,
+          "description": product.description,
+          "price": product.price,
+          "imageUrl": product.imageUrl,
+          "isFavorite": product.isFavorite,
+        }));
 
-      _items.add(Product(
-        id: id,
-        name: product.name,
-        description: product.description,
-        price: product.price,
-        imageUrl: product.imageUrl,
-        isFavorite: product.isFavorite,
-      ));
-      notifyListeners();
-    });
+    final id = jsonDecode(response.body)['name'];
+
+    _items.add(Product(
+      id: id,
+      name: product.name,
+      description: product.description,
+      price: product.price,
+      imageUrl: product.imageUrl,
+      isFavorite: product.isFavorite,
+    ));
+    notifyListeners();
   }
 
-  void _updateProduct(Product product) {
+  Future<void> _updateProduct(Product product) {
     int index = _items.indexWhere((p) => p.id == product.id);
     if (index >= 0) {
       _items[index] = product;
       notifyListeners();
     }
+
+    return Future.value();
   }
 
-  void saveProduct(Map<String, dynamic> data) {
+  Future<void> saveProduct(Map<String, dynamic> data) {
     bool hasId = data['id'] != null;
 
     final product = Product(
@@ -61,9 +61,9 @@ class ProductList with ChangeNotifier {
     );
 
     if (hasId) {
-      _updateProduct(product);
+      return _updateProduct(product);
     } else {
-      _addProduct(product);
+      return _addProduct(product);
     }
   }
 
