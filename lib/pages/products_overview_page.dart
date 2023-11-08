@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:shop/components/app_drawer.dart';
 import 'package:shop/components/product_grid.dart';
 import 'package:shop/models/cart.dart';
+import 'package:shop/models/product_list.dart';
 import 'package:shop/utils/app_routes.dart';
 
 enum FilterOptions {
@@ -19,12 +20,21 @@ class ProductsOverviewPage extends StatefulWidget {
 
 class _ProductsOverviewPageState extends State<ProductsOverviewPage> {
   bool _showFavoriteOnly = false;
+  bool _isLoading = true;
+
+  @override
+  void initState() {
+    Provider.of<ProductList>(context, listen: false)
+        .loadProducts()
+        .then((_) => setState(() => _isLoading = false));
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Minha Loja"),
+        title: const SelectableText("Minha Loja"),
         centerTitle: false,
         actions: [
           IconButton(
@@ -65,7 +75,12 @@ class _ProductsOverviewPageState extends State<ProductsOverviewPage> {
         ],
       ),
       drawer: const AppDrawer(),
-      body: ProductGrid(showFavoriteOnly: _showFavoriteOnly),
+      body: Visibility(
+        visible: !_isLoading,
+        replacement: const Center(child: CircularProgressIndicator()),
+        child: SelectionArea(
+            child: ProductGrid(showFavoriteOnly: _showFavoriteOnly)),
+      ),
     );
   }
 }

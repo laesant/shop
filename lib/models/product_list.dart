@@ -7,8 +7,9 @@ import 'package:shop/data/dummy_data.dart';
 import 'package:shop/models/product.dart';
 
 class ProductList with ChangeNotifier {
-  List<Product> _items = dummyProducts;
-  final String _baseUrl = 'https://shop-ba83e-default-rtdb.firebaseio.com';
+  final List<Product> _items = [];
+  final String _url =
+      'https://shop-ba83e-default-rtdb.firebaseio.com/products.json';
 
   List<Product> get items => [..._items];
 
@@ -16,8 +17,26 @@ class ProductList with ChangeNotifier {
       _items.where((product) => product.isFavorite).toList();
   int get itemsCount => _items.length;
 
+  Future<void> loadProducts() async {
+    _items.clear();
+    var response = await http.get(Uri.parse(_url));
+    if (response.body == 'null') return;
+    Map<String, dynamic> data = jsonDecode(response.body);
+    data.forEach((key, value) {
+      _items.add(Product(
+        id: key,
+        name: value["name"],
+        description: value["description"],
+        price: value["price"],
+        imageUrl: value["imageUrl"],
+        isFavorite: value["isFavorite"],
+      ));
+    });
+    notifyListeners();
+  }
+
   Future<void> _addProduct(Product product) async {
-    var response = await http.post(Uri.parse('$_baseUrl/products.json'),
+    var response = await http.post(Uri.parse(_url),
         body: jsonEncode({
           "name": product.name,
           "description": product.description,
