@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:shop/exceptions/auth_exception.dart';
 
 class Auth with ChangeNotifier {
   static const String _url =
@@ -23,13 +24,16 @@ class Auth with ChangeNotifier {
       }),
     );
 
-    print(jsonDecode(response.body));
+    final body = jsonDecode(response.body);
+    print(body);
+    if (body['error'] != null) {
+      throw AuthException(key: body['error']['message']);
+    }
   }
 
-  Future<void> signup(
-          {required String email, required String password}) async =>
+  Future<void> signup({required String email, required String password}) =>
       _authenticate(email: email, password: password, urlFragment: 'signUp');
-  Future<void> login({required String email, required String password}) async =>
+  Future<void> login({required String email, required String password}) =>
       _authenticate(
           email: email, password: password, urlFragment: 'signInWithPassword');
 }
