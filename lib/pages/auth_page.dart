@@ -21,7 +21,7 @@ class AuthPage extends StatelessWidget {
                 Color.fromRGBO(255, 188, 117, 0.9)
               ])),
         ),
-        Container(
+        SizedBox(
           width: double.infinity,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -29,6 +29,7 @@ class AuthPage extends StatelessWidget {
               Container(
                 padding:
                     const EdgeInsets.symmetric(vertical: 10, horizontal: 70),
+                margin: const EdgeInsets.only(bottom: 20),
                 // cascade operator (..)
                 transform: Matrix4.rotationZ(-8 * pi / 180)..translate(-10.0),
                 decoration: BoxDecoration(
