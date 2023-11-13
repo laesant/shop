@@ -39,7 +39,8 @@ class _AuthFormState extends State<AuthForm> {
     _formKey.currentState!.save();
     Auth auth = Provider.of(context, listen: false);
     if (_isLogin()) {
-      //
+      await auth.login(
+          email: _authData['email']!, password: _authData['password']!);
     } else {
       await auth.signup(
           email: _authData['email']!, password: _authData['password']!);

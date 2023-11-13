@@ -6,13 +6,30 @@ import 'package:http/http.dart' as http;
 class Auth with ChangeNotifier {
   static const String _url =
       'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyAJQZ28okUqnnsQWS7-w-I5JK5MkAgjKZY';
-  Future<void> signup({required String email, required String password}) async {
-    var response = await http.post(Uri.parse(_url),
-        body: jsonEncode({
-          'email': email,
-          'password': password,
-          'returnSecureToken': true,
-        }));
+
+  Future<void> _authenticate(
+      {required String email,
+      required String password,
+      required String urlFragment}) async {
+    final url =
+        'https://identitytoolkit.googleapis.com/v1/accounts:$urlFragment?key=AIzaSyAJQZ28okUqnnsQWS7-w-I5JK5MkAgjKZY';
+
+    var response = await http.post(
+      Uri.parse(url),
+      body: jsonEncode({
+        'email': email,
+        'password': password,
+        'returnSecureToken': true,
+      }),
+    );
+
     print(jsonDecode(response.body));
   }
+
+  Future<void> signup(
+          {required String email, required String password}) async =>
+      _authenticate(email: email, password: password, urlFragment: 'signUp');
+  Future<void> login({required String email, required String password}) async =>
+      _authenticate(
+          email: email, password: password, urlFragment: 'signInWithPassword');
 }
