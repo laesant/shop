@@ -17,7 +17,7 @@ class Auth with ChangeNotifier {
 
   String? get token => isAuth ? _token : null;
   String? get email => isAuth ? _email : null;
-  String? get uid => isAuth ? _uid : null;
+  String? get userId => isAuth ? _uid : null;
 
   Future<void> _authenticate(
       {required String email,

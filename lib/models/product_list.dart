@@ -32,7 +32,6 @@ class ProductList with ChangeNotifier {
         description: value["description"],
         price: value["price"],
         imageUrl: value["imageUrl"],
-        isFavorite: value["isFavorite"],
       ));
     });
     notifyListeners();
@@ -46,7 +45,6 @@ class ProductList with ChangeNotifier {
           "description": product.description,
           "price": product.price,
           "imageUrl": product.imageUrl,
-          "isFavorite": product.isFavorite,
         }));
 
     final id = jsonDecode(response.body)['name'];
@@ -57,7 +55,6 @@ class ProductList with ChangeNotifier {
       description: product.description,
       price: product.price,
       imageUrl: product.imageUrl,
-      isFavorite: product.isFavorite,
     ));
     notifyListeners();
   }
