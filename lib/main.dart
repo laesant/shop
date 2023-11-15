@@ -13,6 +13,7 @@ import 'package:shop/pages/product_detail_page.dart';
 import 'package:shop/pages/product_form_page.dart';
 import 'package:shop/pages/products_page.dart';
 import 'package:shop/utils/app_routes.dart';
+import 'package:shop/utils/custom_route.dart';
 
 void main() {
   runApp(const MyApp());
@@ -52,7 +53,11 @@ class MyApp extends StatelessWidget {
             appBarTheme: const AppBarTheme(centerTitle: true),
             colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
             useMaterial3: true,
-            fontFamily: 'Lato'),
+            fontFamily: 'Lato',
+            pageTransitionsTheme: PageTransitionsTheme(builders: {
+              TargetPlatform.android: CustomPageTransitionsBuilder(),
+              TargetPlatform.iOS: CustomPageTransitionsBuilder(),
+            })),
         localizationsDelegates: const [
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,
