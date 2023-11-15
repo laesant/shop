@@ -12,7 +12,6 @@ import 'package:shop/pages/orders_page.dart';
 import 'package:shop/pages/product_detail_page.dart';
 import 'package:shop/pages/product_form_page.dart';
 import 'package:shop/pages/products_page.dart';
-import 'package:shop/pages/products_overview_page.dart';
 import 'package:shop/utils/app_routes.dart';
 
 void main() {
@@ -30,14 +29,17 @@ class MyApp extends StatelessWidget {
           create: (_) => Auth(),
         ),
         ChangeNotifierProxyProvider<Auth, ProductList>(
-          update: (context, value, previous) =>
-              ProductList(value.token ?? '', previous?.items ?? []),
-          create: (_) => ProductList('', []),
+          update: (context, value, previous) => ProductList(
+            value.token ?? '',
+            value.userId ?? '',
+            previous?.items ?? [],
+          ),
+          create: (_) => ProductList(),
         ),
         ChangeNotifierProxyProvider<Auth, OrderList>(
-          update: (context, value, previous) =>
-              OrderList(value.token ?? '', previous?.items ?? []),
-          create: (_) => OrderList('', []),
+          update: (context, value, previous) => OrderList(
+              value.token ?? '', value.userId ?? '', previous?.items ?? []),
+          create: (_) => OrderList(),
         ),
         ChangeNotifierProvider(
           create: (_) => Cart(),

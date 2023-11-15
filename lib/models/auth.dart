@@ -50,7 +50,16 @@ class Auth with ChangeNotifier {
 
   Future<void> signup({required String email, required String password}) =>
       _authenticate(email: email, password: password, urlFragment: 'signUp');
+      
   Future<void> login({required String email, required String password}) =>
       _authenticate(
           email: email, password: password, urlFragment: 'signInWithPassword');
+
+  void logout() {
+    _token = null;
+    _uid = null;
+    _email = null;
+    _expiryDate = null;
+    notifyListeners();
+  }
 }
