@@ -16,18 +16,41 @@ class ProductDetailPage extends StatelessWidget {
         SliverAppBar(
           expandedHeight: 300,
           pinned: true,
+          leading: const Padding(
+            padding: EdgeInsets.all(5),
+            child: CircleAvatar(child: BackButton()),
+          ),
           flexibleSpace: FlexibleSpaceBar(
-            title: Text(product.name),
-            background: Hero(
-              tag: product.id,
-              child: Container(
-                height: 300,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                    image: DecorationImage(
-                        image: NetworkImage(product.imageUrl),
-                        fit: BoxFit.cover)),
-              ),
+            title: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: Text(product.name),
+            ),
+            centerTitle: true,
+            background: Stack(
+              fit: StackFit.expand,
+              children: [
+                Hero(
+                  tag: product.id,
+                  child: Container(
+                    height: 300,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                        image: DecorationImage(
+                            image: NetworkImage(product.imageUrl),
+                            fit: BoxFit.cover)),
+                  ),
+                ),
+                const DecoratedBox(
+                    decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                  begin: Alignment(0, 0.8),
+                  end: Alignment(0, 0),
+                  colors: [
+                    Color.fromRGBO(0, 0, 0, 0.6),
+                    Color.fromRGBO(0, 0, 0, 0)
+                  ],
+                )))
+              ],
             ),
           ),
         ),
@@ -48,7 +71,6 @@ class ProductDetailPage extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
           ),
-          
         ]))
       ],
     ));
