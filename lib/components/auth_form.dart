@@ -111,7 +111,7 @@ class _AuthFormState extends State<AuthForm>
           duration: const Duration(milliseconds: 500),
           curve: Curves.fastEaseInToSlowEaseOut,
           padding: const EdgeInsets.all(16),
-          height: _isLogin() ? 310 : 400,
+          height: _isLogin() ? 324 : 400,
           width: deviceSize.width * 0.75,
           child: Form(
               key: _formKey,
