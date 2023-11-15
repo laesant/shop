@@ -41,7 +41,6 @@ class _AuthFormState extends State<AuthForm>
       curve: Curves.fastEaseInToSlowEaseOut,
     ));
 
-    _heightAnimation.addListener(() => setState(() {}));
     super.initState();
   }
 
@@ -104,12 +103,12 @@ class _AuthFormState extends State<AuthForm>
     return Card(
       elevation: 8,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      child: SizedBox(
-        // height: _isLogin() ? 324 : 400,
-        height: _heightAnimation.value.height,
-        width: deviceSize.width * 0.75,
-        child: Padding(
+      child: AnimatedContainer(
+          duration: const Duration(milliseconds: 500),
+          curve: Curves.fastEaseInToSlowEaseOut,
           padding: const EdgeInsets.all(16),
+          height: _isLogin() ? 310 : 400,
+          width: deviceSize.width * 0.75,
           child: Form(
               key: _formKey,
               child: Column(
@@ -186,9 +185,7 @@ class _AuthFormState extends State<AuthForm>
                           ? 'DESEJA REGISTRAR?'
                           : 'JÁ POSSUI CONTA?'))
                 ],
-              )),
-        ),
-      ),
+              ))),
     );
   }
 }
