@@ -166,14 +166,16 @@ class _AuthFormState extends State<AuthForm>
                           decoration: const InputDecoration(
                             labelText: 'Confirmar Senha',
                           ),
-                          validator: (value) {
-                            final String password = value ?? '';
-                            if (password != _passwordController.text) {
-                              return 'Senhas informadas não conferem.';
-                            }
+                          validator: _isLogin()
+                              ? null
+                              : (value) {
+                                  final String password = value ?? '';
+                                  if (password != _passwordController.text) {
+                                    return 'Senhas informadas não conferem.';
+                                  }
 
-                            return null;
-                          },
+                                  return null;
+                                },
                         ),
                       ),
                     ),
