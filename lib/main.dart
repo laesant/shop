@@ -6,7 +6,6 @@ import 'package:shop/models/cart.dart';
 import 'package:shop/models/order_list.dart';
 import 'package:shop/models/product_list.dart';
 import 'package:shop/pages/auth_or_home_page.dart';
-import 'package:shop/pages/auth_page.dart';
 import 'package:shop/pages/cart_page.dart';
 import 'package:shop/pages/orders_page.dart';
 import 'package:shop/pages/product_detail_page.dart';
